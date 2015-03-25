@@ -19,4 +19,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AI_search_tree.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tree_solvable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="precompile_macros.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AI_search_tree.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Jubics_crube_problem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="vector_geometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="structures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>

@@ -66,6 +66,15 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AI_search_tree.h" />
+    <ClInclude Include="AI_search_tree.hpp" />
+    <ClInclude Include="Jubics_crube_problem.h" />
+    <ClInclude Include="precompile_macros.h" />
+    <ClInclude Include="structures.h" />
+    <ClInclude Include="Tree_solvable.h" />
+    <ClInclude Include="vector_geometry.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
