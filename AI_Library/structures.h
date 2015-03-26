@@ -16,14 +16,32 @@ public:
 
 	@param dimensions
 	*/
-	Multi_dim_array(std::vector<unsigned int> dimensions){
+	Multi_dim_array(std::vector<unsigned int> dimensions):dimensions_(dimensions), dim_count_(dimensions.size()){
 		int size = 1;
 		for (int i = 0; i < dimensions.length(); i++){
 			size *= dimensions[i];
 		}
 		data_.resize(data_, size);
-		dimensions_ = dimensions;
 	}
+
+	/**
+	return the element at the position specified by the indices in the given vector
+
+	@param indices
+
+	@return requested value
+	*/
+	T& at_vec(const geo_vector<int, dim_count_>& indices){
+		int index_multiplier = 1;
+		int intern_index = 0;
+		for (int i = 0; i < indices.size() - 1; i++){
+			assert(indices.size() < dimensions_.size());
+			intern_index += indices[i] * index_multiplier;
+			index_multiplier *= dimensions_[i];
+		}
+		return data_[intern_index];
+	}
+
 
 	/**
 	return the element at the position specified by the indices in the given vector
@@ -38,7 +56,7 @@ public:
 
 		int index_multiplier = 1;
 		int intern_index = 0;
-		for (int i = 0; i < indices - 1; i++){
+		for (int i = 0; i < indices.size() - 1; i++){
 			assert(indices.size() < dimensions_.size());
 			intern_index += indices[i] * index_multiplier;
 			index_multiplier *= dimensions_[i];
@@ -46,10 +64,14 @@ public:
 		return data_[intern_index];
 	}
 
+	const std::vector<unsigned int>& get_dimensions(){
+		return dimensions_;
+	}
+
 private:
 	std::vector<T> data_;
-	std::vector<unsigned int> dimensions_;
-
+	const std::vector<unsigned int> dimensions_;
+	const int dim_count_;
 };
 
 #endif STRUCTURES_H

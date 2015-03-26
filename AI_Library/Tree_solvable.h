@@ -36,7 +36,7 @@
 
 		@return pointer to the following state
 		*/
-		virtual std::shared_ptr<Problem_state<Action>>  state_after_action(const Action& action) = 0;
+		virtual std::shared_ptr<Problem_state>  state_after_action(const Action& action) = 0;
 	};
 
 
@@ -54,7 +54,7 @@
 
 		static_assert(std::is_base_of<Problem_state<Action>, State>::value, "State of the Tree_solvable must match the specified Action");
 	public:
-		virtual std::shared_ptr<State> get_start_state();
+		virtual std::shared_ptr<StateT> get_start_state();
 	};
 
 #endif//#ifndef TREE_SOLVABLE_H

@@ -1,6 +1,8 @@
 #ifndef JUBICS_CRUBE_PROBLEM_H
 #define JUBICS_CRUBE_PROBLEM_H
 
+#include <list>
+
 #include "vector_geometry.h"
 #include "structures.h"
 
@@ -16,26 +18,31 @@ namespace jubics_crube{
 	at each movable position on the string, there are four possible orientations 
 	but overall there are obviously 6 (one for each of the cubes side) 
 	*/
-	typedef int ActionT;
+	typedef geo_vector<int,3> ActionT;
 
-	class State :Problem_state<ActionT>{
+	class State_impl :Problem_state<ActionT>{
 	public:
-		State():occupied_space_({ 5, 5, 5 }){};
+		State_impl():occupied_space_({ 5, 5, 5 }){};
 
-		std::vector<ActionT> get_possible_actions(){
-			int next_segment_length = remaining_indices_of_movable_.size() == 0 ? cubes_count_ - 1 - cur_cube_index_ : remaining_indices_of_movable_[0] - cur_cube_index_;
+		std::vector<ActionT> get_possible_actions();
 
-		};
-		~State();
+		std::shared_ptr<Problem_state<ActionT>> state_after_action(const ActionT& action);
+
+		bool is_solved();
 
 	private:
 		Multi_dim_array<bool> occupied_space_;
 		int cubes_count_;
 		int cur_cube_index_;
-		std::vector<int> remaining_indices_of_movable_;
+		std::list<int> remaining_indices_of_movable_;	
 		geo_vector<int, 3> cur_position_;
-	};
+		geo_vector<int, 3> cur_direction_;
+	};//class State
 
+	class Problem_impl :Tree_solvable<ActionT, State_impl>{
+	public:
+		std::shared_ptr<State_impl> get_start_state();
+	};
 }//namespace jubics_crube
 
 #endif//#ifndef JUBICS_CRUBE_PROBLEM_H
