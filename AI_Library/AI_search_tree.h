@@ -11,19 +11,17 @@
 template class for a search tree for a template problem
 */
 
-template<typename Problem>
 class AI_search_tree
 {
-	static_assert(std::is_base_of<Tree_solvable, Problem>::value, "AI_search_tree needs Tree_solvable as template")
 public:
-	AI_search_tree();
+	AI_search_tree(){};
 
 	/**
 	prepares the search tree for solving the given problem
 	@param problem to solve
 	*/
-	void set_input(const Problem& problem){
-		problem_ = problem;
+	void set_input(Tree_solvable& problem){
+		problem_ = std::shared_ptr<Tree_solvable>(&problem);
 	};
 
 	/**
@@ -32,17 +30,15 @@ public:
 				vectors content is undefined
 	@return true, if a solution could be found
 	*/
-	bool depth_search(std::vector<Problem::Action>& result);
+	bool depth_search(std::vector<std::shared_ptr<Action>>& result);
 
 
-	~AI_search_tree();
+	~AI_search_tree(){};
 
 private:
-	Problem problem_;
-	Problem::State cur_state_;
+	std::shared_ptr<Tree_solvable> problem_;
+	std::shared_ptr<Problem_state> cur_state_;
 };
-
-#include "AI_search_tree.hpp"
 
 #endif AI_SEARCH_TREE_H
 

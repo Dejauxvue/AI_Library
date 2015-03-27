@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI_search_tree.h" />
-    <ClInclude Include="AI_search_tree.hpp" />
+    <ClInclude Include="AI_search_tree.cpp" />
     <ClInclude Include="Jubics_crube_problem.h" />
     <ClInclude Include="precompile_macros.h" />
     <ClInclude Include="structures.h" />

@@ -2,11 +2,12 @@
 #define STRUCTURES_H
 
 #include <vector>
+#include <assert.h> 
 
 /**
 	container for a multidimensional not resizable data structure
 */
-template<typename T>
+template<typename T, int dim_count>
 class Multi_dim_array{
 public:
 	/**
@@ -16,12 +17,13 @@ public:
 
 	@param dimensions
 	*/
-	Multi_dim_array(std::vector<unsigned int> dimensions):dimensions_(dimensions), dim_count_(dimensions.size()){
+	Multi_dim_array(std::vector<unsigned int> dimensions):dimensions_(dimensions){
+		assert(dim_count == dimensions.size());
 		int size = 1;
-		for (int i = 0; i < dimensions.length(); i++){
+		for (unsigned int i = 0; i < dimensions.size(); i++){
 			size *= dimensions[i];
 		}
-		data_.resize(data_, size);
+		data_.resize(size);
 	}
 
 	/**
@@ -31,14 +33,14 @@ public:
 
 	@return requested value
 	*/
-	T& at_vec(const geo_vector<int, dim_count_>& indices){
+	T& at_vec(const geo_vector<int, dim_count>& indices){
 		int index_multiplier = 1;
 		int intern_index = 0;
-		for (int i = 0; i < indices.size() - 1; i++){
-			assert(indices.size() < dimensions_.size());
+		for (int i = 0; i < dim_count - 1; i++){
 			intern_index += indices[i] * index_multiplier;
 			index_multiplier *= dimensions_[i];
 		}
+		
 		return data_[intern_index];
 	}
 
@@ -57,7 +59,7 @@ public:
 		int index_multiplier = 1;
 		int intern_index = 0;
 		for (int i = 0; i < indices.size() - 1; i++){
-			assert(indices.size() < dimensions_.size());
+			assert(indices[i] < dimensions_[i]);
 			intern_index += indices[i] * index_multiplier;
 			index_multiplier *= dimensions_[i];
 		}
@@ -68,10 +70,15 @@ public:
 		return dimensions_;
 	}
 
+	Multi_dim_array operator=(const  Multi_dim_array& copy){
+		data_ = copy.data_;
+		dimensions_ = copy.dimensions_;
+		return copy;
+	}
+
 private:
 	std::vector<T> data_;
-	const std::vector<unsigned int> dimensions_;
-	const int dim_count_;
+	std::vector<unsigned int> dimensions_;
 };
 
 #endif STRUCTURES_H

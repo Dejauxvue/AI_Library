@@ -2,29 +2,27 @@
 
 namespace jubics_crube{
 
-	std::vector<ActionT> State_impl::get_possible_actions(){
-		std::vector<ActionT> ret;
+	std::vector<std::shared_ptr<Action>> State_impl::get_possible_actions(){
+		std::vector<std::shared_ptr<Action>> ret;
 		ret.reserve(6);
 
-		ActionT base_action0(-1);
-		for (int x = 0; x < 2; x++){
-			ActionT base_action1 = base_action0 + ActionT({ x, 0, 0 });
-			for (int y = 0; y < 2; y++){
-				ActionT base_action2 = base_action1 + ActionT({ 0, y, 0 });
-				for (int z = 0; z < 2; z++){
-					ActionT final_action = base_action2 + ActionT({ 0, 0, z });
-					if (!final_action.scalar_prod(cur_direction_))//only add, if action vector is orthogonal to direction
-					{
-						ret.push_back(final_action);
-					}
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 2; j++){//all 6 possible directions
+				Action_impl final_action(0);
+				final_action[i] = 2 * j - 1;
+				if (!final_action.scalar_prod(cur_direction_))//only add, if action vector is orthogonal to direction
+				{
+					ret.push_back(std::shared_ptr<Action>(&final_action));
 				}
 			}
+					
 		}
 		return ret;
 	}
 
-	std::shared_ptr<Problem_state<ActionT>> State_impl::state_after_action(const ActionT& action){
-		std::shared_ptr<Problem_state<ActionT>> ret(new State_impl());
+	std::shared_ptr<Problem_state> State_impl::state_after_action(const Action& action){
+		const Action_impl& ref_action = dynamic_cast<const Action_impl&>(action);
+		std::shared_ptr<Problem_state> ret(new State_impl());
 		State_impl& ret_ref = *static_cast<State_impl*>(ret.get());
 		ret_ref = *this;
 
@@ -41,19 +39,19 @@ namespace jubics_crube{
 
 		geo_vector<int, 3>& temp_pos = ret_ref.cur_position_;
 		for (int i = 0; i < next_segment_length; i++){
-			temp_pos = temp_pos + action;
+			temp_pos = temp_pos + ref_action;
 			for (unsigned int j = 0; j < 3; j++){//if new position exceeds the bounds
-				if (temp_pos[i] < 0 || temp_pos[i] >= 5) return std::shared_ptr<Problem_state<ActionT>>();
+				if (temp_pos[i] < 0 || temp_pos[i] >= 5) return std::shared_ptr<Problem_state>();
 			}
-			bool& space = ret_ref.occupied_space_.at_vec(temp_pos);
+			int& space = ret_ref.occupied_space_.at_vec(temp_pos);
 			if (space)//if already occupied space is filled, the action does not provide a valid state
 			{
-				return std::shared_ptr<Problem_state<ActionT>>();
+				return std::shared_ptr<Problem_state>();
 			}
 			space = true;
 		}
 		ret_ref.cur_cube_index_ += next_segment_length;
-		ret_ref.cur_direction_ = action;
+		ret_ref.cur_direction_ = ref_action;
 
 	}
 
@@ -87,8 +85,29 @@ namespace jubics_crube{
 		}
 	}
 
-	std::shared_ptr<State_impl> Problem_impl::get_start_state(){
+	std::shared_ptr<Problem_state> Problem_impl::get_start_state(){
 		std::shared_ptr<State_impl> ret(new State_impl());
+		ret->cur_cube_index_ = -1;
+		ret->cubes_count_ = 9;
+		ret->cur_position_ = geo_vector<int, 3>({ 2, 2, 1 });
+		ret->cur_direction_ = geo_vector<int, 3>({ 0, 0, 1 });
+		for (unsigned int x = 0; x < ret->occupied_space_.get_dimensions()[0]; x++)
+		for (unsigned int y = 0; y < ret->occupied_space_.get_dimensions()[1]; y++)
+		for (unsigned int z = 0; z < ret->occupied_space_.get_dimensions()[2]; z++){
+			ret->occupied_space_.at({ x, y, z }) = false;
+		}
+		ret->remaining_indices_of_movable_ = std::list<int>({ 2, 4, 6, 7, 8, 9, 10, 11, 13, 15, 17, 18, 20, 22, 24, 25 });
+		return ret;
+	}
 
+	const State_impl& State_impl::operator=(const State_impl& copy){
+
+		occupied_space_ = copy.occupied_space_;
+		cubes_count_ = copy.cubes_count_;
+		cur_cube_index_ = copy.cur_cube_index_;
+		remaining_indices_of_movable_ = copy.remaining_indices_of_movable_;
+		cur_position_ = copy.cur_position_;
+		cur_direction_ = copy.cur_direction_;
+		return copy;
 	}
 }//namespace jubics_crube
