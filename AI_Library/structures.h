@@ -58,7 +58,7 @@ public:
 
 		int index_multiplier = 1;
 		int intern_index = 0;
-		for (int i = 0; i < indices.size() - 1; i++){
+		for (unsigned int i = 0; i < indices.size() - 1; i++){
 			assert(indices[i] < dimensions_[i]);
 			intern_index += indices[i] * index_multiplier;
 			index_multiplier *= dimensions_[i];

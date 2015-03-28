@@ -47,6 +47,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>NotSet</SubSystem>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -64,12 +65,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AI_search_tree.cpp" />
     <ClCompile Include="Jubics_crube_problem.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI_search_tree.h" />
-    <ClInclude Include="AI_search_tree.cpp" />
     <ClInclude Include="Jubics_crube_problem.h" />
     <ClInclude Include="precompile_macros.h" />
     <ClInclude Include="structures.h" />

@@ -5,7 +5,8 @@
 #include "Jubics_crube_problem.h"
 #include "AI_search_tree.h"
 
-int main(char* argv, int argc){
+
+int main(int argc, char* argv){
 	std::cout << "Hello Mars" << std::endl;
 
 	jubics_crube::Problem_impl problem;

@@ -53,6 +53,8 @@ namespace jubics_crube{
 		ret_ref.cur_cube_index_ += next_segment_length;
 		ret_ref.cur_direction_ = ref_action;
 
+		return ret;
+
 	}
 
 	bool State_impl::is_solved(){
@@ -83,6 +85,7 @@ namespace jubics_crube{
 			}
 
 		}
+		return false;
 	}
 
 	std::shared_ptr<Problem_state> Problem_impl::get_start_state(){
