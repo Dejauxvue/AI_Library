@@ -1,6 +1,7 @@
 #ifndef JUBICS_CRUBE_PROBLEM_H
 #define JUBICS_CRUBE_PROBLEM_H
 
+
 #include <list>
 
 #include "vector_geometry.h"
@@ -22,6 +23,7 @@ namespace jubics_crube{
 	public:
 		Action_impl(int all) :geo_vector<int, 3>(all){};
 		//using geo_vector<int, 3>::geo_vector;//not supported in vc12 ...
+		~Action_impl(){};
 	};
 
 	class State_impl :public Problem_state{
@@ -31,7 +33,7 @@ namespace jubics_crube{
 
 		State_impl():occupied_space_({ 5, 5, 5 }){};
 
-		std::vector<std::shared_ptr<Action>> get_possible_actions();
+		std::list<std::shared_ptr<Action>> get_possible_actions();
 
 		std::shared_ptr<Problem_state> state_after_action(const Action& action);
 

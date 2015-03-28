@@ -15,7 +15,7 @@ int main(int argc, char* argv){
 
 	tree.set_input(problem);
 
-	std::vector<std::shared_ptr<Action>> result;
+	std::list<std::shared_ptr<Action>> result;
 
 	std::cout << "depth search result: " << tree.depth_search(result)<< std::endl;
 

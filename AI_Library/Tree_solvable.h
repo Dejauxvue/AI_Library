@@ -2,7 +2,7 @@
 #define TREE_SOLVABLE_H
 
 #include <memory>
-#include <vector>
+#include <list>
 
 /**
 @class Action
@@ -31,7 +31,7 @@ public:
 	@brief this method is used to find all available options and accordingly should return
 	all the possible Actions that can be performed from the current state
 	*/
-	virtual std::vector<std::shared_ptr<Action>> get_possible_actions() = 0;
+	virtual std::list<std::shared_ptr<Action>> get_possible_actions() = 0;
 
 
 	/**

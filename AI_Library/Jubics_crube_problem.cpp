@@ -2,17 +2,16 @@
 
 namespace jubics_crube{
 
-	std::vector<std::shared_ptr<Action>> State_impl::get_possible_actions(){
-		std::vector<std::shared_ptr<Action>> ret;
-		ret.reserve(6);
+	std::list<std::shared_ptr<Action>> State_impl::get_possible_actions(){
+		std::list<std::shared_ptr<Action>> ret;
 
 		for (int i = 0; i < 3; i++){
 			for (int j = 0; j < 2; j++){//all 6 possible directions
-				Action_impl final_action(0);
-				final_action[i] = 2 * j - 1;
-				if (!final_action.scalar_prod(cur_direction_))//only add, if action vector is orthogonal to direction
+				std::shared_ptr<Action_impl> final_action(new Action_impl(0));
+				(*final_action)[i] = 2 * j - 1;
+				if (!final_action->scalar_prod(cur_direction_))//only add, if action vector is orthogonal to direction
 				{
-					ret.push_back(std::shared_ptr<Action>(&final_action));
+					ret.push_back(std::shared_ptr<Action>(final_action));
 				}
 			}
 					
@@ -21,7 +20,7 @@ namespace jubics_crube{
 	}
 
 	std::shared_ptr<Problem_state> State_impl::state_after_action(const Action& action){
-		const Action_impl& ref_action = dynamic_cast<const Action_impl&>(action);
+		const Action_impl& ref_action = static_cast<const Action_impl&>(action);
 		std::shared_ptr<Problem_state> ret(new State_impl());
 		State_impl& ret_ref = *static_cast<State_impl*>(ret.get());
 		ret_ref = *this;
@@ -41,7 +40,7 @@ namespace jubics_crube{
 		for (int i = 0; i < next_segment_length; i++){
 			temp_pos = temp_pos + ref_action;
 			for (unsigned int j = 0; j < 3; j++){//if new position exceeds the bounds
-				if (temp_pos[i] < 0 || temp_pos[i] >= 5) return std::shared_ptr<Problem_state>();
+				if (temp_pos[j] < 0 || temp_pos[j] >= 5) return std::shared_ptr<Problem_state>();
 			}
 			int& space = ret_ref.occupied_space_.at_vec(temp_pos);
 			if (space)//if already occupied space is filled, the action does not provide a valid state
@@ -91,7 +90,7 @@ namespace jubics_crube{
 	std::shared_ptr<Problem_state> Problem_impl::get_start_state(){
 		std::shared_ptr<State_impl> ret(new State_impl());
 		ret->cur_cube_index_ = -1;
-		ret->cubes_count_ = 9;
+		ret->cubes_count_ = 27;
 		ret->cur_position_ = geo_vector<int, 3>({ 2, 2, 1 });
 		ret->cur_direction_ = geo_vector<int, 3>({ 0, 0, 1 });
 		for (unsigned int x = 0; x < ret->occupied_space_.get_dimensions()[0]; x++)
@@ -99,7 +98,7 @@ namespace jubics_crube{
 		for (unsigned int z = 0; z < ret->occupied_space_.get_dimensions()[2]; z++){
 			ret->occupied_space_.at({ x, y, z }) = false;
 		}
-		ret->remaining_indices_of_movable_ = std::list<int>({ 2, 4, 6, 7, 8, 9, 10, 11, 13, 15, 17, 18, 20, 22, 24, 25 });
+		ret->remaining_indices_of_movable_ = std::list<int>({ 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26 });
 		return ret;
 	}
 

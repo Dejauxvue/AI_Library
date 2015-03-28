@@ -2,6 +2,7 @@
 #define AI_SEARCH_TREE_H
 
 #include <type_traits>
+#include <list>
 
 #include "Tree_solvable.h"
 
@@ -21,7 +22,7 @@ public:
 	vectors content is undefined
 	@return true, if a solution could be found
 	*/
-	bool depth_search(std::vector<std::shared_ptr<Action>>& result);
+	bool depth_search(std::list<std::shared_ptr<Action>>& result);
 
 	/**
 	prepares the search tree for solving the given problem
@@ -38,7 +39,6 @@ public:
 
 private:
 	std::shared_ptr<Tree_solvable> problem_;
-	std::shared_ptr<Problem_state> cur_state_;
 };
 
 #endif AI_SEARCH_TREE_H
