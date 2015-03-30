@@ -27,12 +27,15 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="geometryengine.cpp" />
+    <ClCompile Include="Cube_geometryengine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwidget.cpp" />
+    <ClCompile Include="Multi_cube_geometryengine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="geometryengine.h" />
+    <ClInclude Include="Cube_geometryengine.h" />
+    <ClInclude Include="IGeometryengine.h" />
+    <ClInclude Include="Multi_cube_geometryengine.h" />
     <CustomBuild Include="mainwidget.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing mainwidget.h...</Message>

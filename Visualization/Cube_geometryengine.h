@@ -38,26 +38,26 @@
 **
 ****************************************************************************/
 
-#ifndef GEOMETRYENGINE_H
-#define GEOMETRYENGINE_H
+#ifndef CUBE_GEOMETRYENGINE_H
+#define CUBE_GEOMETRYENGINE_H
 
-#include <QOpenGLFunctions>
-#include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 
-class GeometryEngine : protected QOpenGLFunctions
+#include "IGeometryengine.h"
+
+class Cube_geometryEngine : public IGeometryEngine
 {
 public:
-    GeometryEngine();
-    virtual ~GeometryEngine();
+	Cube_geometryEngine();
+	virtual ~Cube_geometryEngine();
 
-    void drawCubeGeometry(QOpenGLShaderProgram *program);
+	void drawCubeGeometry(QOpenGLShaderProgram *program);
 
 private:
-    void initCubeGeometry();
+	void initCubeGeometry();
 
-    QOpenGLBuffer arrayBuf;
-    QOpenGLBuffer indexBuf;
+	QOpenGLBuffer arrayBuf;
+	QOpenGLBuffer indexBuf;
 };
 
-#endif // GEOMETRYENGINE_H
+#endif // CUBE_GEOMETRYENGINE_H

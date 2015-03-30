@@ -39,6 +39,7 @@
 ****************************************************************************/
 
 #include "mainwidget.h"
+#include "Multi_cube_geometryengine.h"
 
 #include <QMouseEvent>
 
@@ -125,7 +126,9 @@ void MainWidget::initializeGL()
     glEnable(GL_CULL_FACE);
 //! [2]
 
-    geometries = new GeometryEngine;
+	geometries = new Multi_cube_geometryengine(std::vector<Multi_cube_geometryengine::Cube>(
+	{ { QVector3D(0.5f, 0.5f, 0.5f), QVector3D(1.0f, 1.0f, 1.0f) }
+																	, { QVector3D(-0.5f, -0.5f, -0.5f), QVector3D(0, 0, 0) } }));
 
     // Use QBasicTimer because its faster than QTimer
     timer.start(12, this);

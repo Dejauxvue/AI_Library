@@ -38,7 +38,7 @@
 **
 ****************************************************************************/
 
-#include "geometryengine.h"
+#include "Cube_geometryengine.h"
 
 #include <QVector2D>
 #include <QVector3D>
@@ -50,7 +50,7 @@ struct VertexData
 };
 
 //! [0]
-GeometryEngine::GeometryEngine()
+Cube_geometryEngine::Cube_geometryEngine()
     : indexBuf(QOpenGLBuffer::IndexBuffer)
 {
     initializeOpenGLFunctions();
@@ -63,14 +63,14 @@ GeometryEngine::GeometryEngine()
     initCubeGeometry();
 }
 
-GeometryEngine::~GeometryEngine()
+Cube_geometryEngine::~Cube_geometryEngine()
 {
     arrayBuf.destroy();
     indexBuf.destroy();
 }
 //! [0]
 
-void GeometryEngine::initCubeGeometry()
+void Cube_geometryEngine::initCubeGeometry()
 {
     // For cube we would need only 8 vertices but we have to
     // duplicate vertex for each face because texture coordinate
@@ -141,7 +141,7 @@ void GeometryEngine::initCubeGeometry()
 }
 
 //! [2]
-void GeometryEngine::drawCubeGeometry(QOpenGLShaderProgram *program)
+void Cube_geometryEngine::drawCubeGeometry(QOpenGLShaderProgram *program)
 {
     // Tell OpenGL which VBOs to use
     arrayBuf.bind();
